@@ -1,0 +1,41 @@
+﻿@using KillerAppASP.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    ViewBag.Title = "User Index";
+}
+
+<br />
+<br />
+<div class="ui bottom attached segment">
+    <div class="ui grid">
+        <div class="four wide column">
+            <div class="container">
+                <div class="ui middle aligned divided list" style="max-height:450px; overflow:auto;">
+                    <!-- TODO: Aanroepen Viewbag alle users -->
+                    @if (ViewBag.Users.Count > 0)
+                    {
+                        //TODO: Aanroepen Viewbag
+                        foreach (User u in ViewBag.Users)
+                        {
+                            string user = u.Username.ToString();
+                            <div class="item">
+                                <div class="content">
+                                    @u.Username
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="ui message">
+                            <p>Er zijn geen gebruikers ingeschreven/gevonden</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

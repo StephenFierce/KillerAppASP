@@ -4,21 +4,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace KillerAppASP.Connector
 {
     public class MSSQLConnector : IDatabaseConnector
     {
-        public int NonQuery(SqlCommand cmd)
+        public SqlConnection _connection;
+        public static string ConnectionString = @"Server=mssql.fhict.local;Database=dbi290906;User Id=dbi290906;Password=7w5cdx!S;";
+        public static MSSQLConnector Instance
         {
-            throw new NotImplementedException();
+            get
+            {
+                return _instance;
+            }
         }
 
-        public SqlDataReader Query(SqlCommand cmd)
+        private static readonly MSSQLConnector _instance;
+
+        static MSSQLConnector()
         {
-            throw new NotImplementedException();
+            _instance = new MSSQLConnector();
+        }
+        private MSSQLConnector()
+        {
+            _connection = new SqlConnection(ConnectionString);
         }
 
-        private static string ConnectionString = @"bla bla string";
+        public IDbCommand CreateCommand()
+        {
+            return _connection.CreateCommand();
+        }
+
+        public void ExecuteNonQuery(IDbCommand command)
+        {
+            Open();
+
+            using (command)
+                command.ExecuteNonQuery();
+
+            Close();
+        }
+
+        public IDataReader ExecuteReader(IDbCommand command)
+        {
+            Open();
+
+            using (command)
+                return command.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        private void Open()
+        {
+            _connection.Open();
+        }
+
+        private void Close()
+        {
+            _connection.Close();
+        }
+
     }
 }
