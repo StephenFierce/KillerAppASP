@@ -5,13 +5,14 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using System.Data;
+using System.Web.Configuration;
 
 namespace KillerAppASP.Connector
 {
     public class MSSQLConnector : IDatabaseConnector
     {
         public SqlConnection _connection;
-        public static string ConnectionString = @"Server=mssql.fhict.local;Database=dbi290906;User Id=dbi290906;Password=7w5cdx!S;";
+        public static string ConnectionString = WebConfigurationManager.ConnectionStrings["ConnectionIris"].ConnectionString;
         public static MSSQLConnector Instance
         {     
             get
