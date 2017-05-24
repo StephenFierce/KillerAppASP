@@ -10,13 +10,14 @@ namespace KillerAppASP.Repositories
 {
     public class UserRepo : IRepository<User>
     {
+        public List<User> Users { get { return Items; } private set { Items = value; } }
         public List<User> Items { get; private set; }
         private readonly UserContext _context;
 
         public UserRepo(IDatabaseConnector connector)
         {
             _context = new UserContext(connector);
-            Items = new List<User>();
+            Users = new List<User>();
         }
         public void Add(User item)
         {
@@ -35,7 +36,7 @@ namespace KillerAppASP.Repositories
 
         public void Refresh()
         {
-            Items = _context.Read();
+            Users = _context.Read();
         }
 
         public void Update(User item)

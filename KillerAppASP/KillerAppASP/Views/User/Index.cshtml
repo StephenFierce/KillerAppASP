@@ -1,4 +1,5 @@
 ﻿@using KillerAppASP.Models;
+@model List<User>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -15,7 +16,7 @@
             <div class="container">
                 <div class="ui middle aligned divided list" style="max-height:450px; overflow:auto;">
                     <!-- TODO: Aanroepen Viewbag alle users -->
-                    @if (ViewBag.Users.Count > 0)
+                    @if (Model.Count > 0)
                     {
                         //TODO: Aanroepen Viewbag
                         foreach (User u in ViewBag.Users)
@@ -23,8 +24,9 @@
                             string user = u.Username.ToString();
                             <div class="item">
                                 <div class="content">
-                                    @u.Username
+                                    @u.Username @u.DateofBirth.ToShortDateString()
                                 </div>
+
                             </div>
                         }
                     }
