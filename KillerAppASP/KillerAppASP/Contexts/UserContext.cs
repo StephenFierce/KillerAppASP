@@ -32,30 +32,48 @@ namespace KillerAppASP.Contexts
         public List<User> Read()
         {
             List<User> users = new List<User>();
-            User user = null;
-            SqlConnection con = new SqlConnection(MSSQLConnector.ConnectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM [User];", con);
-            con.Open();
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            // User user = null;
+            try
             {
-                
-                while (reader.Read())
+                using (SqlConnection con = new SqlConnection(MSSQLConnector.ConnectionString))
                 {
-                    user = new User();
-                    user.ID = reader.GetInt32(0);
-                    user.Username = reader.GetString(1);
-                    user.DateofBirth = reader.GetDateTime(3);
-                    user.Partner = Convert.ToBoolean(reader.GetInt32(5));
-                    user.DisplayName = reader.GetString(6);
-                    user.Bio = reader.GetString(7);
-                    user.OfflineBanner = reader.GetString(8);
-                    user.ForbiddenWords = reader.GetString(9);
-                    users.Add(user);
+                    string query = "SELECT * FROM [User];";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.Clear();
+                        //cmd.Parameters.AddWithValue("@id", someparm;)
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    User user = new User();
+
+                                    user.ID = reader.GetInt32(0);
+                                    user.Username = reader.GetString(1);
+                                    user.DateofBirth = reader.GetDateTime(3);
+                                    user.Partner = Convert.ToBoolean(reader.GetInt32(5));
+                                    user.DisplayName = reader.GetString(6);
+                                    user.Bio = reader.GetString(7);
+                                    user.OfflineBanner = reader.GetString(8);
+                                    user.ForbiddenWords = reader.GetString(9);
+
+                                    users.Add(user);
+                                }
+                            }
+                        }
+                    }
                 }
-                
             }
-            con.Close();
+            catch (Exception ex)
+            {
+                // write log
+                //WriteLog(Name mthode, ex.Message);
+            }
             return users;
+
         }
 
         public void Update(User item)

@@ -13,7 +13,7 @@ namespace KillerAppASP.Connector
         public SqlConnection _connection;
         public static string ConnectionString = @"Server=mssql.fhict.local;Database=dbi290906;User Id=dbi290906;Password=7w5cdx!S;";
         public static MSSQLConnector Instance
-        {
+        {     
             get
             {
                 return _instance;
