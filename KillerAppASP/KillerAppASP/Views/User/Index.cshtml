@@ -4,39 +4,137 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ 
+@{
     ViewBag.Title = "User Index";
 }
-
-<br />
-<br />
-<div class="ui bottom attached segment">
-    <div class="ui grid">
-        <div class="four wide column">
-            <div class="container">
-                <div class="ui middle aligned divided list" style="max-height:450px; overflow:auto;">
-                    <!-- TODO: Aanroepen Viewbag alle users -->
-                    @if (Model.Count > 0)
-                    {
-                        //TODO: Aanroepen Viewbag
-                        foreach (User u in ViewBag.Users)
-                        {
-                            string user = u.Username.ToString();
-                            <div class="item">
-                                <div class="content">
-                                    @u.Username @u.DateofBirth.ToShortDateString()
+<div class="ui fourteen column centered grid">
+    <div class="fourteen wide column">
+        <div class="ui bottom attached segment">
+            <div class="ui grid">
+                <div class="four wide column">
+                    <div class="container">
+                        <div class="ui middle aligned divided list" style="max-height:450px; overflow:auto;">
+                            @if (Model.Count > 0)
+                            {
+                                foreach (User u in Model)
+                                {
+                                    string user = u.Username.ToString();
+                                    <div class="item">
+                                        <div class="right floated content">
+                                            @Html.ActionLink("Toon Details", "ShowUserDetails", "User", null, new { @class = "ui purple button" })
+                                        </div>
+                                        <div class="content">
+                                            @u.Username
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="ui message">
+                                    <p>Er zijn geen gebruikers ingeschreven/gevonden</p>
                                 </div>
-
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="ui message">
-                            <p>Er zijn geen gebruikers ingeschreven/gevonden</p>
+                            }
                         </div>
-                    }
+                    </div>
                 </div>
+                <div class="one wide column">
+                </div>
+                <!-- TODO: Aanroepen Viewbag voor details van user-->
+                @if (ViewBag.ViewUserDetails == null)
+                {
+                    <div class="ten wide column">
+                        <div class="ui segments">
+                            <div class="ui tertiary segment">
+                                <div class="label">Details gebruiker</div>
+                            </div>
+                            <div class="ui segment">
+                                <div class="ui message">
+                                    <p> U heeft nog geen gebruiker geselecteerd</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    //TODO: U vullen als geselecteerde gebruiker.
+                    User u = ViewBag.ViewUserDetails;
+                    <div class="ten wide column">
+                        <div class="ui segments">
+                            <div class="ui tertiary segment">
+                                <div class="label">Details gebruiker</div>
+                            </div>
+                            <div class="ui segment">
+                                <div class="five wide column">
+                                    <div id="Profile" class="ui huge form">
+                                        <div class="two fields">
+                                            <div class="field">
+                                                <label>Voornaam</label>
+                                                <input disabled="disabled" class="ui disabled input" name="Username" placeholder="Gebruikersnaam" type="text" value="@u.Username">
+                                            </div>
+                                            <div class="field">
+                                                <label>Achternaam</label>
+                                                <input disabled="disabled" class="ui disabled input" name="DateofBirth" placeholder="Geboortedatum" type="text" value="@u.DateofBirth.ToShortDateString()">
+                                            </div>
+                                        </div>
+                                        <div class="ui two fields">
+                                            <div class="field">
+                                                <label>E-mail</label>
+                                                <input disabled="disabled" class="ui disabled input" name="DisplayName" placeholder="Weergavenaam" type="text" value="@u.DisplayName">
+                                            </div>
+                                            <div class="field">
+                                                <label>Telefoonnummer</label>
+                                                <input disabled="disabled" class="ui disabled input" name="Bio" placeholder="Bio" type="text" value="@u.Bio">
+                                            </div>
+                                        </div>
+                                        <div class="ui two fields">
+                                            <div class="field">
+                                                <label>Geboortedatum</label>
+                                                <input disabled="disabled" class="ui disabled input" name="ForbiddenWords" type="text" value="@u.ForbiddenWords">
+                                            </div>
+                                        </div>
+                                        <div class="two fields">
+                                            <div class="field">
+                                                <label>Straatnaam</label>
+                                                <input disabled="disabled" class="ui disabled input" name="OfflineBanner" placeholder="Offline Banner" type="text" value="@u.OfflineBanner">
+                                            </div>
+                                        </div>
+                                        @if (u.Partner == true)
+                                        {
+                                            <div class="field">
+                                                <div class="ui toggle checkbox">
+                                                    <input disabled="disabled" name="Archived" type="checkbox" checked="checked">
+                                                    <label style="font-size:1.5rem">Gearchiveerd</label>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="field">
+                                                <div class="ui toggle checkbox">
+                                                    <input disabled="disabled" name="Archived" type="checkbox">
+                                                    <label style="font-size:1.5rem">Gearchiveerd</label>
+                                                </div>
+                                            </div>
+                                        }
+                                        <hr />
+                                        @if (u.Partner == false)
+                                        {
+                                            //TODO: Invullen Methode voor blokkeren gebruiker uit AdminController
+                                            @Html.ActionLink("Blokkeer", "BlockUser", "Admin", new { id = u.ID }, new { @class = "ui large red button" })
+                                        }
+                                        else
+                                        {
+                                            //TODO: Invullen Methode voor deblokkeren gebruiker uit AdminController
+                                            @Html.ActionLink("Deblokkeer", "BlockUser", "Admin", new { id = u.ID }, new { @class = "ui large green button" })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
