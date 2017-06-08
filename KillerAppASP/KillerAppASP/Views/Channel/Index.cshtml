@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="ui image">
+    <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/theguanyin-profile_banner-82fd0e0e9b9f065d-480.png" style="margin-top:20px; width:100%;height:200px;background-position:left;">
+</div>
+<div class="ui left container">
+
+    <div class="ui small image">
+        <img class="inverted purple" src="https://static-cdn.jtvnw.net/jtv_user_pictures/theguanyin-profile_image-a60c573ada053e78-300x300.png" style="height:100px;width:100px;margin-top:-50px;">
+    </div>
+    <h2 class="ui header" style="padding-top:-40px;margin-right:20px; margin-left:-40px; right:100px;display:inline-block;color:#D65AFF;">TheGuanyin</h2>
+    @* if (session.user != page.user) show Follow button *@
+    <button class="ui inverted purple button">Follow</button>
+    @Html.ActionLink("Edit","Edit","Channel",null,new { @class = "ui inverted purple button" })
+    @*<button class="ui inverted purple button">Edit</button>*@
+</div>
+
+<iframe style="margin-top:10px; left:0; width:60vw;height:33.75vw;display:inline-block;" src="https://www.youtube.com/embed/nYi2YzKd0vg" frameborder="0" allowfullscreen></iframe>
+<div class="ui comments" style="margin-left:10px;top:0; right:0; width:30vw;display:inline-block;">
+    <h3 class="ui dividing header" style="color:#D65AFF;">Chat</h3>
+    <div class="comment">
+        <a class="avatar">
+            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/theguanyin-profile_image-a60c573ada053e78-300x300.png" style="height:32px;width:32px;border:purple solid 1px;" />
+        </a>
+        <div class="content">
+            <a class="author">TheGuanyin</a>
+            <div class="metadata">
+                <span class="date">Today at 5:42PM</span>
+            </div>
+            <div class="text">
+                How artistic!
+            </div>
+            <div class="actions">
+                <a class="reply">Reply</a>
+            </div>
+        </div>
+    </div>
+
+    <form class="ui reply form">
+        <div class="field">
+            <textarea></textarea>
+        </div>
+        <div class="ui inverted purple labeled submit icon button">
+            <i class="icon edit"></i> Send Message
+        </div>
+    </form>
+</div>
+<div class="ui items">
+    <div class="item">
+        <div class="ui small image">
+            <img src="http://placehold.it/250x250">
+        </div>
+        <div class="content">
+            <div class="header">Donate</div>
+            <div class="meta">
+                <span class="price">Top Donators:</span>
+                <span class="stay">Smam: 100 euro</span>
+                <span class="stay">Peerke: 50 euro</span>
+            </div>
+            <div class="description">
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <div class="ui small image">
+            <img src="http://placehold.it/250x250">
+        </div>
+        <div class="content">
+            <div class="header">My Rig</div>
+            <div class="meta">
+                <span class="price">i7 2600K 5.2GHz</span>
+                <span class="stay">500GB SSD</span>
+                <span class="stay">4k Monitor</span>
+            </div>
+            <div class="description">
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <div class="ui small image">
+            <img src="http://placehold.it/250x250">
+        </div>
+        <div class="content">
+            <div class="header">Sponsor</div>
+            <div class="meta">
+                <span class="price">Logitech</span>
+                <span class="stay">Samsung</span>
+            </div>
+            <div class="description">
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>

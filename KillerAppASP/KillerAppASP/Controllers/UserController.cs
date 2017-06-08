@@ -26,6 +26,11 @@ namespace KillerAppASP.Controllers
             return View(_userRepo.Users);
         }
 
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
         public ActionResult ViewUserDetails()
         {
 

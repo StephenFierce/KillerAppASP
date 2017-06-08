@@ -1,4 +1,3 @@
-C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\obj\Debug\KillerAppASP.csprojResolveAssemblyReference.cache
 C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\bin\ApplicationInsights.config
 C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\bin\roslyn\csc.exe
 C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\bin\roslyn\csc.exe.config

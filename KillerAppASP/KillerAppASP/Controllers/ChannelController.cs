@@ -11,11 +11,20 @@ namespace KillerAppASP.Controllers
         // GET: Channel
 
 
-        public string Index()
+        public ActionResult Index()
         {
-            return "This is my <b>default</b> action...";
-        }
 
+            return View();
+        }
+        public ActionResult Edit()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Edit(string firstname, string lastname)
+        {
+            return View("Edit");
+        }
         // 
         // GET: /HelloWorld/Welcome/ 
 
