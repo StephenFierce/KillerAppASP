@@ -1,32 +1,117 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model KillerAppASP.ViewModels.Login
 
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<!-- Site Properties -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+
+<title>Login Example - Semantic</title>
+<link href="~/Content/semantic.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+
+<style type="text/css">
+    body {
+        background-color: #ffffff;
+    }
+
+        body > .grid {
+            height: 100%;
+        }
+
+    .image {
+        margin-top: -100px;
+    }
+
+    .column {
+        max-width: 450px;
+    }
+</style>
+<script>
+    $(document)
+        .ready(function () {
+            $('.ui.form')
+                .form({
+                    fields: {
+                        email: {
+                            identifier: 'email',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please enter your name or e-mail'
+                                }
+
+                            ]
+                        },
+                        password: {
+                            identifier: 'password',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please enter your password'
+                                },
+                                {
+                                    type: 'length[6]',
+                                    prompt: 'Your password must be at least 6 characters'
+                                }
+                            ]
+                        }
+                    }
+                })
+                ;
+        })
+        ;
+</script>
+
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <h2 class="ui purple image header" style="color: #767676;">
+                Login to your account
+        </h2>
+
+        @using (Html.BeginForm("Login", "Login", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="ui large form">
+
+                <div class="ui stacked segment">
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { required = "required", type = "text", name = "name" } })
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { required = "required", type = "password" } })
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <button style="width: 100%;" class="ui fluid large grey submit button" type="submit">Login</button>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+@if (IsPost)
+{
+    <script>
+        $("#alert-message").fadeTo(3000, 500).slideUp(500, function () {
+            $("#alert-message").slideUp(500);
+        });
+    </script>
+}

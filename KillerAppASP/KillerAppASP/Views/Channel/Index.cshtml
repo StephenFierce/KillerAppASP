@@ -1,18 +1,20 @@
-﻿@{
+﻿@using KillerAppASP.Models;
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    User u = Session["LoggedIn"] as User;
+    Channel c = ViewBag.ChannelDetails;
 }
 <div class="ui image">
-    <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/theguanyin-profile_banner-82fd0e0e9b9f065d-480.png" style="margin-top:20px; width:100%;height:200px;background-position:left;">
+    <img src="@c.Banner" style="margin-top:20px; width:100%;height:200px;background-position:left;">
 </div>
 <div class="ui left container">
-
     <div class="ui small image">
-        <img class="inverted purple" src="https://static-cdn.jtvnw.net/jtv_user_pictures/theguanyin-profile_image-a60c573ada053e78-300x300.png" style="height:100px;width:100px;margin-top:-50px;">
+        <img class="inverted purple" src="@c.ProfilePicture" style="height:100px;width:100px;margin-top:-50px;">
     </div>
-    <h2 class="ui header" style="padding-top:-40px;margin-right:20px; margin-left:-40px; right:100px;display:inline-block;color:#D65AFF;">TheGuanyin</h2>
+    <h2 class="ui header" style="padding-top:-40px;margin-right:20px; margin-left:-40px; right:100px;display:inline-block;color:#D65AFF;">@c.Name</h2>
     @* if (session.user != page.user) show Follow button *@
     <button class="ui inverted purple button">Follow</button>
-    @Html.ActionLink("Edit","Edit","Channel",null,new { @class = "ui inverted purple button" })
+    @Html.ActionLink("Aanpassen","EditChannel","Channel",new { @id = u.ID },new { @class = "ui inverted purple button" })
     @*<button class="ui inverted purple button">Edit</button>*@
 </div>
 

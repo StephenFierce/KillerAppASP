@@ -1,0 +1,36 @@
+﻿@using KillerAppASP.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    User u = Session["LoggedIn"] as User;
+    Channel c = ViewBag.ChannelDetails;
+}
+
+@Html.BeginForm("EditChannel", "Channel", FormMethod.Post, new { @class = "ui form" })
+{
+@if (ViewBag.ChannelDetails != null)
+{
+    
+
+    <div class="field">
+        <label>Channel Name</label>
+        <input type="text" name="name" placeholder="Name" value="@c.Name">
+    </div>
+    <div class="field">
+        <label>Channel Banner</label>
+        <input type="text" name="banner" placeholder="Last Name" value="@c.Banner">
+    </div>
+    <div class="field">
+        <label>Profile Picture</label>
+        <input type="text" name="profilePicture" placeholder="Last Name" value="@c.ProfilePicture">
+    </div>
+    <div class="field">
+        <label>ID</label>
+        <input type="text" disabled="disabled" name="id" placeholder="Last Name" value="@c.ID">
+    </div>
+    <div class="field">
+        <label>Views</label>
+        <input type="text" disabled="disabled" name="views" placeholder="Last Name" value="@c.Views">
+    </div>
+}
+<button class="ui inverted purple button" type="submit">Opslaan</button>
+}

@@ -1,22 +1,46 @@
-﻿@{
+﻿@using KillerAppASP.Models;
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    User u = ViewBag.CurrentUser;
 }
 
-@using (Html.BeginForm("Edit", "Channel", FormMethod.Post, new { @class = "ui form" }))
+@using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "ui form" }))
 {
     <div class="field">
-        <label>First Name</label>
-        <input type="text" name="first-name" placeholder="First Name">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Username" value="@u.Username">
     </div>
     <div class="field">
-        <label>Last Name</label>
-        <input type="text" name="last-name" placeholder="Last Name">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Password" value="@u.Password">
     </div>
     <div class="field">
-        <div class="ui checkbox">
-            <input type="checkbox" tabindex="0" class="hidden">
-            <label>I agree to the Terms and Conditions</label>
-        </div>
+        <label>DateofBirth</label>
+        <input type="datetime" name="dateofbirth"  value="@u.DateofBirth">
+    </div>
+    <div class="field">
+        <label>Displayname</label>
+        <input type="text" name="displayname" placeholder="Display Name" value="@u.DisplayName">
+    </div>
+    <div class="field">
+        <label>Partner</label>
+        <input type="text" disabled="disabled" name="partner" placeholder="Partner" value="@u.Partner">
+    </div>
+    <div class="field">
+        <label>Email</label>
+        <input type="text" name="email" placeholder="Email" value="@u.Email">
+    </div>
+    <div class="field">
+        <label>Bio</label>
+        <input type="text" name="bio" placeholder="Bio" value="@u.Bio">
+    </div>
+    <div class="field">
+        <label>Offline Banner</label>
+        <input type="datetime" name="offlinebanner" placeholder="Offline Banner" value="@u.OfflineBanner">
+    </div>
+    <div class="field">
+        <label>Forbidden Words</label>
+        <input type="text" name="forbiddenwords" placeholder="Forbidden Words" value="@u.ForbiddenWords">
     </div>
     <button class="ui button" type="submit">Edit</button>
 }

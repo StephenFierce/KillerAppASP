@@ -22,22 +22,22 @@ namespace KillerAppASP.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(Login user)
+        public ActionResult Login(string email, string password)
         {
+            _login = new LoginRepository(connector);
             try
             {
-                User u = new User();
-                u = _login.Login(user.Email, user.Password);
-                Session["LoggedInUser"] = u;
+                User user = _login.Login(email, password);
+                Session["LoggedIn"] = user;
             }
             catch (LoginException)
             {
                 ViewBag.ExceptionMessage = "No user was found with the given e-mail and password.";
 
-                return View();
+                return View("Login");
             }
-
-            return View("Index");
+            ViewBag.Message = "You've succesfully logged in! Welcome!";
+            return View("Welcome");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace KillerAppASP.Connector
     public class MSSQLConnector : IDatabaseConnector
     {
         public SqlConnection _connection;
-        public static string ConnectionString = WebConfigurationManager.ConnectionStrings["ConnectionIris"].ConnectionString;
+        public static string ConnectionString = WebConfigurationManager.ConnectionStrings["ConnectionInfra"].ConnectionString;
         public static MSSQLConnector Instance
         {     
             get

@@ -43,7 +43,7 @@ namespace KillerAppASP.Repositories
 
         public void Update(User item)
         {
-            throw new NotImplementedException();
+            _context.Update(item);
         }
     }
 }

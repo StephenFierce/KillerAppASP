@@ -1,6 +1,7 @@
 ﻿@using KillerAppASP.Models;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    User u = Session["LoggedIn"] as User;
 }
 
 @{
@@ -10,55 +11,6 @@
     <div class="fourteen wide column">
         <div class="ui bottom attached segment">
             <div class="ui grid">
-                <div class="four wide column">
-                    <div class="container">
-                        <div class="ui middle aligned divided list" style="max-height:450px; overflow:auto;">
-                            @if (ViewBag.Users.Count > 0)
-                            {
-                                foreach (User u in ViewBag.Users)
-                                {
-                                    string user = u.Username.ToString();
-                                    <div class="item">
-                                        <div class="right floated content">
-                                            @Html.ActionLink("Toon Details", "ShowUserDetails", "User", new { id = u.ID }, new { @class = "ui inverted purple button" })
-                                        </div>
-                                        <div class="content">
-                                            @u.Username
-                                        </div>
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="ui message">
-                                    <p>Er zijn geen gebruikers ingeschreven/gevonden</p>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="one wide column">
-                </div>
-                <!-- TODO: Aanroepen Viewbag voor details van user-->
-                @if (ViewBag.ViewUserDetails == null)
-                {
-                    <div class="ten wide column">
-                        <div class="ui segments">
-                            <div class="ui tertiary segment">
-                                <div class="label">Details gebruiker</div>
-                            </div>
-                            <div class="ui segment">
-                                <div class="ui message">
-                                    <p> U heeft nog geen gebruiker geselecteerd</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    //TODO: U vullen als geselecteerde gebruiker.
-                    User u = ViewBag.ViewUserDetails;
                     <div class="ten wide column">
                         <div class="ui segments">
                             <div class="ui tertiary segment">
@@ -66,43 +18,58 @@
                             </div>
                             <div class="ui segment">
                                 <div class="five wide column">
-                                    <div id="Profile" class="ui huge form">
+                                    @Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "ui form" })
+                                    {
                                         <div class="two fields">
                                             <div class="field">
                                                 <label>Gebruikersnaam</label>
-                                                <input  class="ui input" name="Username" placeholder="Gebruikersnaam" type="text" value="@u.Username">
+                                                <input  class="ui input" name="username" placeholder="Gebruikersnaam" type="text" value="@u.Username">
                                             </div>
                                             <div class="field">
                                                 <label>Geboortedatum</label>
-                                                <input  class="ui disabled input" name="DateofBirth" placeholder="Geboortedatum" type="text" value="@u.DateofBirth.ToShortDateString()">
+                                                <input  class="ui input" name="dateofbirth" placeholder="Geboortedatum" type="text" value="@u.DateofBirth.ToShortDateString()">
+                                            </div>
+                                        </div>
+                                        <div class="two fields">
+                                            <div class="field">
+                                                <label>Email</label>
+                                                <input class="ui input" name="email" type="email" value="@u.Email">
+                                            </div>
+                                            <div class="field">
+                                                <label>Wachtwoord</label>
+                                                <input class="ui input" name="password" placeholder="password" type="password" value="@u.Password">
                                             </div>
                                         </div>
                                         <div class="ui two fields">
                                             <div class="field">
                                                 <label>Weergavenaam</label>
-                                                <input  class="ui disabled input" name="DisplayName" placeholder="Weergavenaam" type="text" value="@u.DisplayName">
+                                                <input  class="ui input" name="displayname" placeholder="Weergavenaam" type="text" value="@u.DisplayName">
                                             </div>
                                             <div class="field">
                                                 <label>Bio</label>
-                                                <input  class="ui disabled input" name="Bio" placeholder="Bio" type="text" value="@u.Bio">
+                                                <input  class="ui input" name="bio" placeholder="Bio" type="text" value="@u.Bio">
                                             </div>
                                         </div>
                                         <div class="ui two fields">
                                             <div class="field">
                                                 <label>Verboden Woorden</label>
-                                                <input  class="ui disabled input" name="ForbiddenWords" type="text" value="@u.ForbiddenWords">
+                                                <input  class="ui input" name="forbiddenwords" type="text" value="@u.ForbiddenWords">
                                             </div>
                                         </div>
                                         <div class="two fields">
                                             <div class="field">
                                                 <label>Offline Banner</label>
-                                                <input  class="ui disabled input" name="OfflineBanner" placeholder="Offline Banner" type="text" value="@u.OfflineBanner">
+                                                <input  class="ui input" name="offlinebanner" placeholder="Offline Banner" type="text" value="@u.OfflineBanner">
+                                            </div>
+                                            <div class="field">
+                                                <label>ID</label>
+                                                <input class="ui input" name="id" placeholder="id" type="text" value="@u.ID">
                                             </div>
                                         </div>
                                         @if (u.Partner == true)
                                         {
                                             <div class="field">
-                                                    <label style="font-size:1.2rem">Partner</label>
+                                                    <label style="font-size:1.2rem">partner</label>
                                             </div>
                                         }
                                         else
@@ -112,8 +79,9 @@
                                             </div>
                                         }
                                         <hr />
-                                            @Html.ActionLink("Opslaan", "SaveChanges", "User", new { id = u.ID }, new { @class = "ui large inverted purple button" })
-                                    </div>
+                                    <button class="ui inverted purple button" type="submit">Opslaan</button>
+                                }    
+                                </div>
                                 </div>
                             </div>
                         </div>

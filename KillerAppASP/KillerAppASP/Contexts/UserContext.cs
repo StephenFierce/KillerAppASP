@@ -119,7 +119,35 @@ namespace KillerAppASP.Contexts
 
         public void Update(User item)
         {
-            throw new NotImplementedException();
+            User user = new User();
+            user = item;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(MSSQLConnector.ConnectionString))
+                {
+                    string query = "UPDATE [User] SET [Username] = @Username, [Password] = @Password, [DateofBirth] = @Dateofbirth, [Email] = @Email,[DisplayName] = @Displayname,[Bio] = @Bio,[OfflineBanner] = @Offlinebanner,[ForbiddenWords] = @Forbiddenwords  WHERE ID = @ID; ";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("ID", user.ID);
+                        cmd.Parameters.AddWithValue("Username", user.Username);
+                        cmd.Parameters.AddWithValue("Password", user.Password);
+                        cmd.Parameters.AddWithValue("Dateofbirth", user.DateofBirth);
+                        cmd.Parameters.AddWithValue("Email", user.Email);
+                        cmd.Parameters.AddWithValue("Displayname", user.DisplayName);
+                        cmd.Parameters.AddWithValue("Bio", user.Bio);
+                        cmd.Parameters.AddWithValue("Offlinebanner", user.OfflineBanner);
+                        cmd.Parameters.AddWithValue("Forbiddenwords", user.ForbiddenWords);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

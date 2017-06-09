@@ -1,4 +1,6 @@
 ﻿@using KillerAppASP.ViewModels;
+@using KillerAppASP.Models;
+@{User user = Session["LoggedIn"] as User;}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,10 +18,10 @@
     <meta charset="utf-8">
 </head>
 <body>
+    
     <div class="ui top attached tabular menu">
             @Html.ActionLink("Login", "Login", "Login", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
-@Html.ActionLink("About", "About", "Home", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
-@Html.ActionLink("Channel", "Index", "Channel", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
+@Html.ActionLink("Channel", "Index", "Channel", new { @id = user.ID }, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
 @Html.ActionLink("Me", "Index", "User", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
         <div class="ui icon right menu" style="color:#D65AFF;">
             <a class="item" style="color:#D65AFF;">
@@ -41,8 +43,8 @@
                 <div class="ui transparent icon input">
                     @using (Html.BeginForm("Search", "Search",FormMethod.Post))
                     {
-                        @Html.TextBox("SearchQuery")
 
+                        @Html.TextBox("SearchQuery",null, new { @class = "ui inverted purple" })
                         <input type="submit" name="Search" value="Search" />
                     }
                     
@@ -58,6 +60,7 @@
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Twitch by TG</p>
+            <p></p>
         </footer>
     </div>
 

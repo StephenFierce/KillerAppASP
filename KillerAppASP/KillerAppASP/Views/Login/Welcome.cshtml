@@ -1,0 +1,7 @@
+﻿@using KillerAppASP.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    User u = Session["LoggedIn"] as User;
+}
+
+<h2 class="ui header">@ViewBag.Message @u.Username</h2>
