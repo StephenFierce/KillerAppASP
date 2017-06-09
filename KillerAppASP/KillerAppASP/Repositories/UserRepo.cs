@@ -12,6 +12,7 @@ namespace KillerAppASP.Repositories
     {
         public List<User> Users { get { return Items; } private set { Items = value; } }
         public List<User> Items { get; private set; }
+        public User user = new User();
         private readonly UserContext _context;
 
         public UserRepo(IDatabaseConnector connector)
@@ -29,9 +30,10 @@ namespace KillerAppASP.Repositories
             throw new NotImplementedException();
         }
 
-        public void GetItem(int ID)
+        public User GetItem(int ID)
         {
-            throw new NotImplementedException();
+            user = _context.GetItem(ID);
+            return user;
         }
 
         public void Refresh()

@@ -64,3 +64,4 @@ C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\bin\Microsoft
 C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\bin\Microsoft.AI.Web.xml
 C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\obj\Debug\KillerAppASP.dll
 C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\obj\Debug\KillerAppASP.pdb
+C:\Users\steph\Source\Repos\KillerAppASP\KillerAppASP\KillerAppASP\obj\Debug\KillerAppASP.csprojResolveAssemblyReference.cache

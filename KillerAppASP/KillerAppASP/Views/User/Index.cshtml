@@ -1,5 +1,4 @@
 ﻿@using KillerAppASP.Models;
-@model List<User>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,14 +13,14 @@
                 <div class="four wide column">
                     <div class="container">
                         <div class="ui middle aligned divided list" style="max-height:450px; overflow:auto;">
-                            @if (Model.Count > 0)
+                            @if (ViewBag.Users.Count > 0)
                             {
-                                foreach (User u in Model)
+                                foreach (User u in ViewBag.Users)
                                 {
                                     string user = u.Username.ToString();
                                     <div class="item">
                                         <div class="right floated content">
-                                            @Html.ActionLink("Toon Details", "ShowUserDetails", "User", null, new { @class = "ui purple button" })
+                                            @Html.ActionLink("Toon Details", "ShowUserDetails", "User", new { id = u.ID }, new { @class = "ui inverted purple button" })
                                         </div>
                                         <div class="content">
                                             @u.Username
@@ -63,72 +62,57 @@
                     <div class="ten wide column">
                         <div class="ui segments">
                             <div class="ui tertiary segment">
-                                <div class="label">Details gebruiker</div>
+                                <div class="label">Persoonlijke instellingen</div>
                             </div>
                             <div class="ui segment">
                                 <div class="five wide column">
                                     <div id="Profile" class="ui huge form">
                                         <div class="two fields">
                                             <div class="field">
-                                                <label>Voornaam</label>
-                                                <input disabled="disabled" class="ui disabled input" name="Username" placeholder="Gebruikersnaam" type="text" value="@u.Username">
+                                                <label>Gebruikersnaam</label>
+                                                <input  class="ui input" name="Username" placeholder="Gebruikersnaam" type="text" value="@u.Username">
                                             </div>
-                                            <div class="field">
-                                                <label>Achternaam</label>
-                                                <input disabled="disabled" class="ui disabled input" name="DateofBirth" placeholder="Geboortedatum" type="text" value="@u.DateofBirth.ToShortDateString()">
-                                            </div>
-                                        </div>
-                                        <div class="ui two fields">
-                                            <div class="field">
-                                                <label>E-mail</label>
-                                                <input disabled="disabled" class="ui disabled input" name="DisplayName" placeholder="Weergavenaam" type="text" value="@u.DisplayName">
-                                            </div>
-                                            <div class="field">
-                                                <label>Telefoonnummer</label>
-                                                <input disabled="disabled" class="ui disabled input" name="Bio" placeholder="Bio" type="text" value="@u.Bio">
-                                            </div>
-                                        </div>
-                                        <div class="ui two fields">
                                             <div class="field">
                                                 <label>Geboortedatum</label>
-                                                <input disabled="disabled" class="ui disabled input" name="ForbiddenWords" type="text" value="@u.ForbiddenWords">
+                                                <input  class="ui disabled input" name="DateofBirth" placeholder="Geboortedatum" type="text" value="@u.DateofBirth.ToShortDateString()">
+                                            </div>
+                                        </div>
+                                        <div class="ui two fields">
+                                            <div class="field">
+                                                <label>Weergavenaam</label>
+                                                <input  class="ui disabled input" name="DisplayName" placeholder="Weergavenaam" type="text" value="@u.DisplayName">
+                                            </div>
+                                            <div class="field">
+                                                <label>Bio</label>
+                                                <input  class="ui disabled input" name="Bio" placeholder="Bio" type="text" value="@u.Bio">
+                                            </div>
+                                        </div>
+                                        <div class="ui two fields">
+                                            <div class="field">
+                                                <label>Verboden Woorden</label>
+                                                <input  class="ui disabled input" name="ForbiddenWords" type="text" value="@u.ForbiddenWords">
                                             </div>
                                         </div>
                                         <div class="two fields">
                                             <div class="field">
-                                                <label>Straatnaam</label>
-                                                <input disabled="disabled" class="ui disabled input" name="OfflineBanner" placeholder="Offline Banner" type="text" value="@u.OfflineBanner">
+                                                <label>Offline Banner</label>
+                                                <input  class="ui disabled input" name="OfflineBanner" placeholder="Offline Banner" type="text" value="@u.OfflineBanner">
                                             </div>
                                         </div>
                                         @if (u.Partner == true)
                                         {
                                             <div class="field">
-                                                <div class="ui toggle checkbox">
-                                                    <input disabled="disabled" name="Archived" type="checkbox" checked="checked">
-                                                    <label style="font-size:1.5rem">Gearchiveerd</label>
-                                                </div>
+                                                    <label style="font-size:1.2rem">Partner</label>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="field">
-                                                <div class="ui toggle checkbox">
-                                                    <input disabled="disabled" name="Archived" type="checkbox">
-                                                    <label style="font-size:1.5rem">Gearchiveerd</label>
-                                                </div>
+                                                    <label style="font-size:1.2rem">Geen Partner</label>
                                             </div>
                                         }
                                         <hr />
-                                        @if (u.Partner == false)
-                                        {
-                                            //TODO: Invullen Methode voor blokkeren gebruiker uit AdminController
-                                            @Html.ActionLink("Blokkeer", "BlockUser", "Admin", new { id = u.ID }, new { @class = "ui large red button" })
-                                        }
-                                        else
-                                        {
-                                            //TODO: Invullen Methode voor deblokkeren gebruiker uit AdminController
-                                            @Html.ActionLink("Deblokkeer", "BlockUser", "Admin", new { id = u.ID }, new { @class = "ui large green button" })
-                                        }
+                                            @Html.ActionLink("Opslaan", "SaveChanges", "User", new { id = u.ID }, new { @class = "ui large inverted purple button" })
                                     </div>
                                 </div>
                             </div>

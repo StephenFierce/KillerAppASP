@@ -13,15 +13,12 @@ namespace KillerAppASP.Controllers
     public class UserController : Controller
     {
         private UserRepo _userRepo;
+        
         private IDatabaseConnector connector;
         // GET: User
         public ActionResult Index()
         {
-            _userRepo = new UserRepo(connector);
-            List<User> users = new List<User>();
-            _userRepo.Refresh();
-            
-            ViewBag.Users = _userRepo.Users;
+            RefreshUsers();
             ViewBag.Message = "HEUJJJ";
             return View(_userRepo.Users);
         }
@@ -31,15 +28,24 @@ namespace KillerAppASP.Controllers
             return View();
         }
 
-        public ActionResult ViewUserDetails()
+        public ActionResult ShowUserDetails(int ID)
         {
-
-            return View();
+            RefreshUsers();
+            ViewBag.ViewUserDetails =  _userRepo.GetItem(ID);
+            return View("Index");
         }
 
         public string Welcome()
         {
             return "Bla bla bla";
+        }
+
+        public void RefreshUsers()
+        {
+            _userRepo = new UserRepo(connector);
+            List<User> users = new List<User>();
+            _userRepo.Refresh();
+            ViewBag.Users = _userRepo.Users;
         }
     }
 }

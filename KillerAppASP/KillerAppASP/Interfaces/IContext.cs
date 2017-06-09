@@ -15,5 +15,7 @@ namespace KillerAppASP.Interfaces
         void Update(T item);
 
         void Delete(T item);
+
+        T GetItem(int ID);
     }
 }
