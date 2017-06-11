@@ -14,22 +14,24 @@ namespace KillerAppASP.Controllers
         // GET: Channel
         private ChannelRepository _channelRepo;
         private UserRepo _userRepo;
+        private MessageRepository _messageRepo;
         private IDatabaseConnector connector;
 
-        public ActionResult Index(int ID)
+        public ActionResult Index(int id)
         {
             User u = new Models.User()
             {
-                ID = ID
+                ID = id
             };
-            _channelRepo = new ChannelRepository(connector);
+            InitializeRepos();
+            ViewBag.AllUsers = _userRepo.RefreshUsers();
+            ViewBag.ChatMessages = _messageRepo.GetItems(id);
             ViewBag.ChannelDetails = _channelRepo.GetItem(u.ID);
             return View();
         }
         public ActionResult EditChannel(int ID)
         {
-            _userRepo = new UserRepo(connector);
-            _channelRepo = new ChannelRepository(connector);
+            InitializeRepos();
             User u = _userRepo.GetItem(ID);
             ViewBag.ChannelDetails = _channelRepo.GetItem(u.ID);
             return View();
@@ -37,7 +39,7 @@ namespace KillerAppASP.Controllers
         [HttpPost]
         public ActionResult EditChannel(int id, string name, string banner, string profilePicture)
         {
-            _channelRepo = new ChannelRepository(connector);
+            InitializeRepos();
             Channel c = new Channel()
             {
                 ID = id,
@@ -55,6 +57,36 @@ namespace KillerAppASP.Controllers
         public string Welcome()
         {
             return "This is the Welcome action method...";
+        }
+        [HttpPost]
+        public ActionResult SendMessage(int cid, int id, string message)
+        {
+            ChatMessage cm = new ChatMessage()
+            {
+                SentByUserID = id,
+                Message = message,
+                TimeStamp = DateTime.Now,
+                ChannelID = cid
+            };
+            User u = new Models.User()
+            {
+                ID = id
+            };
+            InitializeRepos();
+            _messageRepo.Add(cm);
+            ViewBag.AllUsers = _userRepo.RefreshUsers();
+            ViewBag.ChatMessages = _messageRepo.GetItems(cid);
+            ViewBag.ChannelDetails = _channelRepo.GetItem(u.ID);
+
+
+            return View("Index");
+        }
+
+        public void InitializeRepos()
+        {
+            _messageRepo = new MessageRepository(connector);
+            _userRepo = new UserRepo(connector);
+            _channelRepo = new ChannelRepository(connector);
         }
     }
 }

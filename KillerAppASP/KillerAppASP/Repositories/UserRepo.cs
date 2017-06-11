@@ -36,9 +36,15 @@ namespace KillerAppASP.Repositories
             return user;
         }
 
-        public void Refresh()
+        public List<User> RefreshUsers()
         {
             Users = _context.Read();
+            return Users;
+        }
+
+        public void Refresh()
+        {
+
         }
 
         public void Update(User item)
