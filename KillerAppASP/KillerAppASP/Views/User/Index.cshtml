@@ -11,25 +11,25 @@
     <div class="fourteen wide column">
         <div class="ui bottom attached segment">
             <div class="ui grid">
-                    <div class="ten wide column">
-                        <div class="ui segments">
-                            <div class="ui tertiary segment">
-                                <div class="label">Persoonlijke instellingen</div>
-                            </div>
-                            <div class="ui segment">
-                                <div class="five wide column">
-                                    @Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "ui form" })
-                                    {
-                                        <div class="two fields">
-                                            <div class="field">
-                                                <label>Gebruikersnaam</label>
-                                                <input  class="ui input" name="username" placeholder="Gebruikersnaam" type="text" value="@u.Username">
-                                            </div>
-                                            <div class="field">
-                                                <label>Geboortedatum</label>
-                                                <input  class="ui input" name="dateofbirth" placeholder="Geboortedatum" type="text" value="@u.DateofBirth.ToShortDateString()">
-                                            </div>
+                <div class="ten wide column">
+                    <div class="ui segments">
+                        <div class="ui tertiary segment">
+                            <div class="label">Persoonlijke instellingen</div>
+                        </div>
+                        <div class="ui segment">
+                            <div class="five wide column">
+                                @using (@Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "ui form" }))
+                                {
+                                    <div class="two fields">
+                                        <div class="field">
+                                            <label>Gebruikersnaam</label>
+                                            <input class="ui input" name="username" placeholder="Gebruikersnaam" type="text" value="@u.Username">
                                         </div>
+                                        <div class="field">
+                                            <label>Geboortedatum</label>
+                                            <input class="ui input" name="dateofbirth" placeholder="Geboortedatum" type="text" value="@u.DateofBirth.ToShortDateString()">
+                                        </div>
+                                    </div>
                                         <div class="two fields">
                                             <div class="field">
                                                 <label>Email</label>
@@ -43,51 +43,50 @@
                                         <div class="ui two fields">
                                             <div class="field">
                                                 <label>Weergavenaam</label>
-                                                <input  class="ui input" name="displayname" placeholder="Weergavenaam" type="text" value="@u.DisplayName">
+                                                <input class="ui input" name="displayname" placeholder="Weergavenaam" type="text" value="@u.DisplayName">
                                             </div>
                                             <div class="field">
                                                 <label>Bio</label>
-                                                <input  class="ui input" name="bio" placeholder="Bio" type="text" value="@u.Bio">
+                                                <input class="ui input" name="bio" placeholder="Bio" type="text" value="@u.Bio">
                                             </div>
                                         </div>
                                         <div class="ui two fields">
                                             <div class="field">
                                                 <label>Verboden Woorden</label>
-                                                <input  class="ui input" name="forbiddenwords" type="text" value="@u.ForbiddenWords">
+                                                <input class="ui input" name="forbiddenwords" type="text" value="@u.ForbiddenWords">
                                             </div>
                                         </div>
                                         <div class="two fields">
                                             <div class="field">
                                                 <label>Offline Banner</label>
-                                                <input  class="ui input" name="offlinebanner" placeholder="Offline Banner" type="text" value="@u.OfflineBanner">
+                                                <input class="ui input" name="offlinebanner" placeholder="Offline Banner" type="text" value="@u.OfflineBanner">
                                             </div>
                                             <div class="field">
                                                 <label>ID</label>
-                                                <input class="ui input" name="id" placeholder="id" type="text" value="@u.ID">
+                                                <input class="ui input" disabled="disabled" name="id" placeholder="id" type="text" value="@u.ID">
                                             </div>
                                         </div>
-                                        @if (u.Partner == true)
-                                        {
-                                            <div class="field">
-                                                    <label style="font-size:1.2rem">partner</label>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="field">
-                                                    <label style="font-size:1.2rem">Geen Partner</label>
-                                            </div>
-                                        }
-                                        <hr />
-                                    <button class="ui inverted purple button" type="submit">Opslaan</button>
-                                }    
-                                </div>
-                                </div>
+                                    if (u.Partner == true)
+                                    {
+                                        <div class="field">
+                                            <label style="font-size:1.2rem">partner</label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="field">
+                                            <label style="font-size:1.2rem">Geen Partner</label>
+                                        </div>
+                                    }
+                                    <hr />
+                                        <button class="ui inverted purple button" type="submit">Opslaan</button>
+                                }
                             </div>
                         </div>
                     </div>
-                }
+                </div>
             </div>
+
         </div>
     </div>
 </div>

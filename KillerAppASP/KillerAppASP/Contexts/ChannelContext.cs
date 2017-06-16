@@ -82,8 +82,6 @@ namespace KillerAppASP.Contexts
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            if (reader.HasRows)
-                            {
                                 while (reader.Read())
                                 {
                                     Channel channel = new Channel();
@@ -97,7 +95,7 @@ namespace KillerAppASP.Contexts
 
                                     Channels.Add(channel);
                                 }
-                            }
+                           
                         }
                     }
                 }
@@ -138,6 +136,54 @@ namespace KillerAppASP.Contexts
                 // write log
                 //WriteLog(Name mthode, ex.Message);
             }
+        }
+
+        public void GoLive(int id)
+        {
+            using (SqlConnection con = new SqlConnection(MSSQLConnector.ConnectionString))
+            {
+                string query = "EXEC dbo.spSendLiveMessages @User = @ID;";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("ID", id);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+        }
+
+        public List<Suggestion> GetSuggestions(int id)
+        {
+            List<Suggestion> suggestions = new List<Suggestion>();
+            using (SqlConnection con = new SqlConnection(MSSQLConnector.ConnectionString))
+            {
+                string query = "EXEC dbo.spGetSuggestionsDirect @UserID = @ID;";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("ID", id);
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Suggestion s = new Suggestion();
+
+                            s.Title = reader.GetString(0);
+                            s.GameName = reader.GetString(1);
+                            s.GenreName = reader.GetString(2);
+                            s.Views = reader.GetInt32(3);
+                            s.ChannelName = reader.GetString(4);
+                            s.Username = reader.GetString(5);
+
+
+                            suggestions.Add(s);
+                        }
+
+                    }
+                }
+            }
+            return suggestions;
         }
     }
 }

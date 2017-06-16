@@ -1,15 +1,16 @@
 ﻿@model KillerAppASP.ViewModels.Login
-
+@using Santhos.Web.Mvc.BootstrapFlashMessages
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    int counter = ViewBag.Count;
 }
 
 <!-- Site Properties -->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 
-<title>Login Example - Semantic</title>
+<title>Login Twitch</title>
 <link href="~/Content/semantic.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 
@@ -71,10 +72,10 @@
 <div class="ui middle aligned center aligned grid">
     <div class="column">
         <h2 class="ui purple image header" style="color: #767676;">
-            Login to your account
+            Login op je account
         </h2>
 
-        @using (Html.BeginForm("Login", "Login", "Login", FormMethod.Post))
+        @using (Html.BeginForm("Login", "Login", new { @count = counter }, FormMethod.Post))
         {
             @Html.AntiForgeryToken()
 
@@ -95,7 +96,23 @@
                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { required = "required", type = "password" } })
                         </div>
                     </div>
+                    @if (IsPost)
+                    {
+                        <div id="alert-message" style="width: 100%;">
+                            @Html.FlashMessages()
+                        </div>
+                        <div class="field">
+                            @if (counter < 11)
+                            {
+                                <img src="@ViewBag.Gif" width="100%" id="gif" />
+                            }
+                            else
+                            {
+                                <iframe width="392" height="221" src="https://www.youtube.com/embed/Gc2u6AFImn8?autoplay=1&start=71" frameborder="0" allowfullscreen></iframe>
+                            }
 
+                        </div>
+                    }
                     <div class="field">
                         <button style="width: 100%;" class="ui fluid large grey submit button" type="submit">Login</button>
                     </div>
@@ -110,8 +127,53 @@
 @if (IsPost)
 {
     <script>
-        $("#alert-message").fadeTo(3000, 500).slideUp(500, function () {
+        $("#alert-message").fadeTo(4900, 500).slideUp(500, function () {
             $("#alert-message").slideUp(500);
         });
+
     </script>
+}
+@if (counter < 11)
+{
+    switch (counter)
+    {
+        case 2:
+            <script>
+                $("#gif").fadeTo(4900, 500).slideUp(500, function () {
+                    $("#gif").slideUp(500);
+                });
+            </script>
+            break;
+        case 3:
+            <script>
+                $("#gif").fadeTo(1500, 500).slideUp(500, function () {
+                    $("#gif").slideUp(500);
+                });
+            </script>
+            break;
+        case 4:
+            <script>
+                $("#gif").fadeTo(1850, 500).slideUp(500, function () {
+                    $("#gif").slideUp(500);
+                });
+            </script>
+            break;
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            <script>
+                $("#gif").fadeTo(4900, 500).slideUp(500, function () {
+                    $("#gif").slideUp(500);
+                });
+            </script>
+            break;
+    }
+}
+else
+{
+
 }

@@ -1,11 +1,16 @@
 ﻿@using KillerAppASP.Models;
+@using Santhos.Web.Mvc.BootstrapFlashMessages
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     User u = Session["LoggedIn"] as User;
     Channel c = ViewBag.ChannelDetails;
     List<ChatMessage> cms = ViewBag.ChatMessages;
     List<User> allusers = ViewBag.AllUsers;
+    List<Channel> allchannels = ViewBag.AllChannels;
 }
+
+
+
 <div class="ui image">
     <img src="@c.Banner" style="margin-top:20px; width:100%;height:200px;background-position:left;">
 </div>
@@ -15,8 +20,9 @@
     </div>
     <h2 class="ui header" style="padding-top:-40px;margin-right:20px; margin-left:-40px; right:100px;display:inline-block;color:#D65AFF;">@c.Name</h2>
     @* if (session.user != page.user) show Follow button *@
-    <button class="ui inverted purple button">Follow</button>
+    <button class="ui inverted purple button">Volg</button>
     @Html.ActionLink("Aanpassen", "EditChannel", "Channel", new { @id = u.ID }, new { @class = "ui inverted purple button" })
+    @Html.ActionLink("Ga Live", "GoLive", "Channel", new { @id = u.ID }, new { @class = "ui inverted purple button" })
     @*<button class="ui inverted purple button">Edit</button>*@
 </div>
 
@@ -24,13 +30,13 @@
 <div class="ui comments" style="margin-left:10px;top:0; right:0; width:30vw;display:inline-block;">
     <h3 class="ui dividing header" style="color:#D65AFF;">Chat</h3>
 
-    <div class="comment">
+    <div class="comment" style="max-height:400px;overflow-y:scroll;">
 @foreach (ChatMessage cm in cms)
 {
         <div class="content">
-            <a class="author">@allusers.Find(i => i.ID == cm.SentByUserID).Username;</a>
+            <a class="author">@allusers.Find(i => i.ID == cm.SentByUserID).Username</a>
             <div class="metadata">
-                <span class="date">@cm.TimeStamp</span>
+                <span class="date">@cm.TimeStamp.ToShortTimeString()</span>
             </div>
             <div class="text">
                 @cm.Message
@@ -38,11 +44,13 @@
         </div>
         }
     </div>
-    @Html.BeginForm("SendMessage", "Channel",new { @id = u.ID, @cid = c.ID } , FormMethod.Post, new { @class = "ui reply form" }){
+    @using (Html.BeginForm("SendMessage", "Channel", new { @id = u.ID, @cid = c.ID }, FormMethod.Post, new { @class = "ui reply form" }))
+    {
     <div class="field">
-        <textarea name="message"></textarea>
-            <button class="ui inverted purple labeled submit icon button" type="submit">Bericht versturen</button>
+        <textarea name="message" style="max-height:100px;"></textarea>
+            
     </div>
+    <button class="ui inverted purple labeled submit icon button" type="submit">Bericht versturen</button>
     }
 </div>
 <div class="ui items">
@@ -94,3 +102,28 @@
         </div>
     </div>
 </div>
+@foreach (Suggestion s in ViewBag.Suggestions)
+{
+    User SugUser = allusers.Find(i => i.Username == s.Username);
+<div class="ui card" style="display:inline-block;margin:5px;">
+    <div class="image">
+        <img src="@allchannels.Find(i => i.ID == SugUser.ID).ProfilePicture;" style="width:290px;height:290px;">
+    </div>
+    <div class="content">
+        <a class="header">@SugUser.DisplayName</a>
+        <div class="meta" style="min-height:40px;">
+            <span class="date">@s.Title</span>
+        </div>
+        <div class="description" style="min-height:60px;">
+            Is playing @s.GameName, which is a @s.GenreName game. <br />
+            Go to the @s.ChannelName channel!
+        </div>
+    </div>
+    <div class="extra content">
+        <a>
+            <i class="user icon"></i>
+            @s.Views
+        </a>
+    </div>
+</div>
+}

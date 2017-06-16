@@ -1,6 +1,7 @@
 ﻿@using KillerAppASP.ViewModels;
 @using KillerAppASP.Models;
-@{User user = Session["LoggedIn"] as User;}
+@using Santhos.Web.Mvc.BootstrapFlashMessages
+@{User user = Session["LoggedIn"] as User; }
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +19,11 @@
     <meta charset="utf-8">
 </head>
 <body>
-    
+
     <div class="ui top attached tabular menu">
-            @Html.ActionLink("Login", "Login", "Login", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
-@Html.ActionLink("Channel", "Index", "Channel", new { @id = user.ID }, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
-@Html.ActionLink("Me", "Index", "User", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
+        @Html.ActionLink("Log uit", "Logout", "Login", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
+        @Html.ActionLink("Kanaal", "Index", "Channel", new { @id = user.ID }, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
+        @Html.ActionLink("Instellingen", "Index", "User", null, new { @class = "inverted purple item", @style = "color:#D65AFF;" })
         <div class="ui icon right menu" style="color:#D65AFF;">
             <a class="item" style="color:#D65AFF;">
                 <i class="gamepad icon" style="color:#D65AFF;"></i>
@@ -41,25 +42,28 @@
         <div class="right menu">
             <div class="item">
                 <div class="ui transparent icon input">
-                    @using (Html.BeginForm("Search", "Search",FormMethod.Post))
+                    @using (Html.BeginForm("Search", "Search", FormMethod.Post))
                     {
 
-                        @Html.TextBox("SearchQuery",null, new { @class = "ui inverted purple" })
-                        <input type="submit" name="Search" value="Search" />
+                        @Html.TextBox("SearchQuery", null, new { @class = "ui inverted purple", @style = "border:1px solid #D65AFF;color:#D65AFF;" })
+                        <input type="submit" name="Search" value="Zoek" />
                     }
-                    
+
                 </div>
             </div>
         </div>
     </div>
-                                
-                                
 
+
+    <div class="ui floating message" id="alert-message">
+        @Html.FlashMessages()
+    </div>
     <div class="container body-content">
+
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Twitch by TG</p>
+            <p>&copy; @DateTime.Now.Year - Twitch door TG</p>
             <p></p>
         </footer>
     </div>
@@ -72,3 +76,8 @@
     @RenderSection("Script", false)
 </body>
 </html>
+<script>
+    $("#alert-message").fadeTo(3000, 500).slideUp(500, function () {
+        $("#alert-message").slideUp(500);
+    });
+</script>

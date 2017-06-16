@@ -10,6 +10,7 @@ namespace KillerAppASP.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Count = 1;
             return View();
         }
 

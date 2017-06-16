@@ -36,14 +36,29 @@ namespace KillerAppASP.Repositories
             return channel;
         }
 
-        public void Refresh()
+        public List<Channel> Read()
         {
-            throw new NotImplementedException();
+           return _context.Read();
         }
 
         public void Update(Channel item)
         {
             _context.Update(item);
+        }
+
+        public void GoLive(int id)
+        {
+            _context.GoLive(id);
+        }
+
+        public List<Suggestion> GetSuggestions(int id)
+        {
+            return _context.GetSuggestions(id);
+        }
+
+        public void Refresh()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using KillerAppASP.Interfaces;
 using KillerAppASP.Models;
 using KillerAppASP.Repositories;
+using Santhos.Web.Mvc.BootstrapFlashMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,10 @@ namespace KillerAppASP.Controllers
             };
             InitializeRepos();
             ViewBag.AllUsers = _userRepo.RefreshUsers();
+            ViewBag.AllChannels = _channelRepo.Read();
             ViewBag.ChatMessages = _messageRepo.GetItems(id);
             ViewBag.ChannelDetails = _channelRepo.GetItem(u.ID);
+            ViewBag.Suggestions = _channelRepo.GetSuggestions(u.ID);
             return View();
         }
         public ActionResult EditChannel(int ID)
@@ -39,45 +42,57 @@ namespace KillerAppASP.Controllers
         [HttpPost]
         public ActionResult EditChannel(int id, string name, string banner, string profilePicture)
         {
-            InitializeRepos();
-            Channel c = new Channel()
+            try
             {
-                ID = id,
-                Name = name,
-                Banner = banner,
-                ProfilePicture = profilePicture
-            };
-            _channelRepo.Update(c);
-            ViewBag.ChannelDetails = c;
-            return View("EditChannel", c.ID);
-        }
-        // 
-        // GET: /HelloWorld/Welcome/ 
-
-        public string Welcome()
-        {
-            return "This is the Welcome action method...";
+                InitializeRepos();
+                Channel c = new Channel()
+                {
+                    ID = id,
+                    Name = name,
+                    Banner = banner,
+                    ProfilePicture = profilePicture
+                };
+                _channelRepo.Update(c);
+                ViewBag.ChannelDetails = c;
+                this.FlashSuccess("Het bericht is verstuurd.");
+                return View("EditChannel", c.ID);
+            }
+            catch (Exception)
+            {
+                this.FlashDanger("Het bericht is niet verstuurd, probeer het opnieuw.");
+                return View("EditChannel", id);
+            }
+            
         }
         [HttpPost]
         public ActionResult SendMessage(int cid, int id, string message)
         {
-            ChatMessage cm = new ChatMessage()
+            try
             {
-                SentByUserID = id,
-                Message = message,
-                TimeStamp = DateTime.Now,
-                ChannelID = cid
-            };
-            User u = new Models.User()
+                ChatMessage cm = new ChatMessage()
+                {
+                    SentByUserID = id,
+                    Message = message,
+                    TimeStamp = DateTime.Now,
+                    ChannelID = cid
+                };
+                User u = new Models.User()
+                {
+                    ID = id
+                };
+                InitializeRepos();
+                _messageRepo.Add(cm);
+                ViewBag.AllUsers = _userRepo.RefreshUsers();
+                ViewBag.AllChannels = _channelRepo.Read();
+                ViewBag.ChatMessages = _messageRepo.GetItems(id);
+                ViewBag.ChannelDetails = _channelRepo.GetItem(u.ID);
+                ViewBag.Suggestions = _channelRepo.GetSuggestions(u.ID);
+                this.FlashSuccess("Het bericht is verstuurd.");
+            }
+            catch (Exception)
             {
-                ID = id
-            };
-            InitializeRepos();
-            _messageRepo.Add(cm);
-            ViewBag.AllUsers = _userRepo.RefreshUsers();
-            ViewBag.ChatMessages = _messageRepo.GetItems(cid);
-            ViewBag.ChannelDetails = _channelRepo.GetItem(u.ID);
-
+                this.FlashDanger("Het bericht is niet verstuurd, probeer het opnieuw.");
+            }
 
             return View("Index");
         }
@@ -87,6 +102,32 @@ namespace KillerAppASP.Controllers
             _messageRepo = new MessageRepository(connector);
             _userRepo = new UserRepo(connector);
             _channelRepo = new ChannelRepository(connector);
+        }
+
+        public ActionResult GoLive(int id)
+        {
+            try
+            {
+                User u = new Models.User()
+                {
+                    ID = id
+                };
+                InitializeRepos();
+                ViewBag.AllUsers = _userRepo.RefreshUsers();
+                ViewBag.AllChannels = _channelRepo.Read();
+                ViewBag.ChatMessages = _messageRepo.GetItems(id);
+                ViewBag.ChannelDetails = _channelRepo.GetItem(u.ID);
+                ViewBag.Suggestions = _channelRepo.GetSuggestions(u.ID);
+                _channelRepo.GoLive(id);
+                this.FlashSuccess("Je bent nu live!");
+            }
+            catch (Exception)
+            {
+                this.FlashDanger("Het live gaan is niet gelukt!");
+            }
+
+
+            return View("Index");
         }
     }
 }

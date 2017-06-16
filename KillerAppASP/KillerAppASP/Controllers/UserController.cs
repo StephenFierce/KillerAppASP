@@ -1,6 +1,7 @@
 ﻿using KillerAppASP.Interfaces;
 using KillerAppASP.Models;
 using KillerAppASP.Repositories;
+using Santhos.Web.Mvc.BootstrapFlashMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ using System.Web.Mvc;
 
 namespace KillerAppASP.Controllers
 {
-    
+
     public class UserController : Controller
     {
         private UserRepo _userRepo;
-        
+
         private IDatabaseConnector connector;
         // GET: User
         public ActionResult Index()
@@ -31,34 +32,46 @@ namespace KillerAppASP.Controllers
         [HttpPost]
         public ActionResult Edit(int id, string username, string password, string dateofbirth, string email, string displayname, string bio, string offlinebanner, string forbiddenwords)
         {
-            _userRepo = new UserRepo(connector);
-            User u = new User()
+            try
             {
-                ID = id,
-                Username = username,
-                Password = password,
-                DateofBirth = Convert.ToDateTime(dateofbirth),
-                Email = email,
-                DisplayName = displayname,
-                Bio = bio,
-                OfflineBanner = offlinebanner,
-                ForbiddenWords = forbiddenwords
-            };
-            _userRepo.Update(u);
-            Session["LoggedIn"] = u;
+                _userRepo = new UserRepo(connector);
+                User u = new User()
+                {
+                    ID = id,
+                    Username = username,
+                    Password = password,
+                    DateofBirth = Convert.ToDateTime(dateofbirth),
+                    Email = email,
+                    DisplayName = displayname,
+                    Bio = bio,
+                    OfflineBanner = offlinebanner,
+                    ForbiddenWords = forbiddenwords
+                };
+                _userRepo.Update(u);
+                Session["LoggedIn"] = u;
+                this.FlashSuccess("Uw gegevens zijn aangepast.");
+            }
+            catch (Exception)
+            {
+                this.FlashDanger("Er ging iets mis! Heeft u wel alle velden juist ingevuld?");
+            }
+
             return View("Index");
         }
 
         public ActionResult ShowUserDetails(int ID)
         {
             RefreshUsers();
-            ViewBag.ViewUserDetails =  _userRepo.GetItem(ID);
+            try
+            {
+                ViewBag.ViewUserDetails = _userRepo.GetItem(ID);
+                this.FlashSuccess("Het ophalen is gelukt!");
+            }
+            catch (Exception)
+            {
+                this.FlashDanger("Het ophalen van je gegevens is mislukt, probeer het opnieuw.");
+            }
             return View("Index");
-        }
-
-        public string Welcome()
-        {
-            return "Bla bla bla";
         }
 
         public void RefreshUsers()
